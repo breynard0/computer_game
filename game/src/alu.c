@@ -20,7 +20,7 @@ int eval_alu_inst(const struct Instruction inst)
         return ~(inst.first_operand & inst.second_operand);
     case XOR:
         return inst.first_operand ^ inst.second_operand;
-    default: return 0;
+    default: return -1000;
     }
 }
 
@@ -55,8 +55,8 @@ void draw_alu(const GameState* state)
 
     const char* title_text = "ALU";
     const int title_size = 28;
-    const int title_width = MeasureText(title_text, title_size);
-    DrawText(title_text, left_edge + (width - title_width) / 2, top_edge + height / 10, title_size, WHITE);
+    const int title_width = MeasureTextFont(state->font, title_text, title_size);
+    DrawTextFont(state->font, title_text, left_edge + (width - title_width) / 2, top_edge + height / 10, title_size);
 
     // Draw answer
     if (state->alu_answer >= -256 && state->alu_answer <= 256)
@@ -64,7 +64,8 @@ void draw_alu(const GameState* state)
         char answer_text[32];
         sprintf(answer_text, "Answer: %i", state->alu_answer);
         const int answer_size = 24;
-        const int answer_width = MeasureText(answer_text, answer_size);
-        DrawText(answer_text, left_edge + (width - answer_width) / 2, top_edge + height / 2, answer_size, WHITE);
+        const int answer_width = MeasureTextFont(state->font, answer_text, answer_size);
+        DrawTextFont(state->font, answer_text, left_edge + (width - answer_width) / 2, top_edge + height / 2,
+                     answer_size);
     }
 }

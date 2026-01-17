@@ -32,7 +32,7 @@ int draw_inst_list(const GameState state)
             col = CG_DRAG_INST_SEMIACTIVE_COLOR;
         }
         
-        draw_inst_box(&drag, get_inst_box_width(), box_height, col);
+        draw_inst_box(&drag, get_inst_box_width(), box_height, col, &state);
         idx++;
     }
 

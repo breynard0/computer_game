@@ -1,6 +1,7 @@
 #include "inst_drag.h"
 
 #include "alu.h"
+#include "comparator.h"
 #include "inst_box.h"
 
 #include "raylib.h"
@@ -11,7 +12,7 @@ void update_draw_inst_drag(struct InstDrag* drag, GameState* state)
     const int width = get_inst_box_width();
     const int height = get_inst_box_height();
 
-    draw_inst_box(drag, width, height, CG_DRAG_INST_ACTIVE_COLOR);
+    draw_inst_box(drag, width, height, CG_DRAG_INST_ACTIVE_COLOR, state);
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
@@ -39,10 +40,19 @@ void update_draw_inst_drag(struct InstDrag* drag, GameState* state)
         const int alu_pos_y = get_alu_top_edge();
         const int alu_far_pos_x = alu_pos_x + get_alu_width();
         const int alu_far_pos_y = alu_pos_y + get_alu_height();
+        
+        const int cmp_pos_x = get_cmp_left_edge();
+        const int cmp_pos_y = get_cmp_top_edge();
+        const int cmp_far_pos_x = cmp_pos_x + get_cmp_width();
+        const int cmp_far_pos_y = cmp_pos_y + get_cmp_height();
 
         if (far_pos_x >= alu_pos_x && far_pos_y >= alu_pos_y && pos_x <= alu_far_pos_x && pos_y <= alu_far_pos_y)
         {
             state->alu_answer = eval_alu_inst(drag->inst);
+        }
+        if (far_pos_x >= cmp_pos_x && far_pos_y >= cmp_pos_y && pos_x <= cmp_far_pos_x && pos_y <= cmp_far_pos_y)
+        {
+            state->cmp_answer = eval_cmp_inst(drag->inst, state);
         }
     }
 

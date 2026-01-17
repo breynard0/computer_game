@@ -254,8 +254,7 @@ void regen_instructions(GameState* state)
                     break;
                 }
                 break;
-            case STAGE_SIX_MEMORY:
-            case STAGE_SEVEN_CLOCK:
+            case STAGE_SIX_MEMORY_AND_CLOCK:
                 switch (GetRandomValue(0, 19))
                 {
                 case 0:

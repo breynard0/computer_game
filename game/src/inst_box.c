@@ -15,7 +15,7 @@ int get_inst_box_height(void)
     return get_inst_box_width() / 5;
 }
 
-void draw_inst_box(const struct InstDrag* drag, const int width, const int height, const Color bg)
+void draw_inst_box(const struct InstDrag* drag, const int width, const int height, const Color bg, const GameState* state)
 {
     DrawRectangle(drag->x, drag->y, width, height, bg);
     DrawRectangleLines(drag->x, drag->y, width, height, CG_WINDOW_BORDER_COLOR);
@@ -98,5 +98,5 @@ void draw_inst_box(const struct InstDrag* drag, const int width, const int heigh
     {
         sprintf(text_buf, "%s  %s  %s", op_text, first_buf, second_buf);
     }
-    DrawText(text_buf, drag->x + width / 16, drag->y + (height - font_height) / 2, font_height, WHITE);
+    DrawTextFont(state->font, text_buf, drag->x + width / 16, drag->y + (height - font_height) / 2, font_height);
 }

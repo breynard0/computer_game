@@ -5,11 +5,14 @@
 
 #include "inst_drag.h"
 #include "alu.h"
+#include "comparator.h"
 #include "styles.h"
 #include "main.h"
 #include "inst_list.h"
 #include "gen_inst.h"
 #include "screen_controls.h"
+
+#include "../deps/jetbrainmono.h" // font made with xxd
 
 int main(void)
 {
@@ -20,9 +23,17 @@ int main(void)
 
     SetTargetFPS(60);
 
+    // Set font
+    const Font jetbrains_mono = LoadFontFromMemory(".ttf", deps_JetBrainsMono_Regular_ttf,
+                                                   (int)deps_JetBrainsMono_Regular_ttf_len,
+                                                   48,
+                                                   NULL, 0);
+    GuiSetFont(jetbrains_mono);
+
     GameState state = {
-        .program = {}, .program_counter = 0, .sim_stage = STAGE_SEVEN_CLOCK, .pc_textbox_editing = 0,
-        .output_textbox_editing = 0, .output = 0, .alu_answer = -1000
+        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
+        .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
+        .registers = {}, .font = jetbrains_mono
     };
     regen_instructions(&state);
 
@@ -37,6 +48,8 @@ int main(void)
         {
             state.output = 0;
             state.alu_answer = -1000;
+            state.cmp_answer = -1;
+            state.output_changed = 0;
             state.program_counter++;
         }
 
@@ -54,6 +67,10 @@ int main(void)
         if (state.sim_stage >= STAGE_THIRD_ALU)
         {
             draw_alu(&state);
+        }
+        if (state.sim_stage >= STAGE_FOURTH_JUMP)
+        {
+            draw_cmp(&state);
         }
 
         const int cur_draggable_inst_height = draw_inst_list(state);
@@ -73,4 +90,14 @@ int main(void)
     CloseWindow();
 
     return 0;
+}
+
+void DrawTextFont(const Font font, const char* text, const int x, const int y, const int size)
+{
+    DrawTextEx(font, text, (Vector2){(float)x, (float)y}, (float)size, 2, WHITE);
+}
+
+int MeasureTextFont(const Font font, const char* text, const int size)
+{
+    return (int) MeasureTextEx(font, text, (float) size, 2).x;
 }
