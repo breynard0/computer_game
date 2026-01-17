@@ -22,5 +22,6 @@ typedef struct
     int pc_textbox_editing;
     int output_textbox_editing;
     int output;
+    int alu_answer;
 } GameState;
 #endif //COMPUTER_GAME_MAIN_H

@@ -8,5 +8,6 @@ struct InstDrag
     int y;
     int dragging;
 };
-void update_draw_inst_drag(struct InstDrag* drag);
+#include "main.h"
+void update_draw_inst_drag(struct InstDrag* drag, GameState* state);
 #endif //COMPUTER_GAME_INST_DRAG_H

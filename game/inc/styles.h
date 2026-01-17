@@ -5,4 +5,5 @@
 #define CG_DRAG_INST_INACTIVE_COLOR (Color) { 50, 52, 52, 255 }
 #define CG_DRAG_INST_SEMIACTIVE_COLOR (Color) { 40, 60, 80, 255 }
 #define CG_WINDOW_BORDER_COLOR (Color) { 22, 22, 28, 255 }
+#define CG_ALU_COLOR (Color) { 78, 186, 130, 255 }
 #endif //COMPUTER_GAME_STYLES_H
