@@ -21,7 +21,9 @@ add_executable(computer_game game/src/main.c
         game/src/alu.c
         game/inc/alu.h
         game/src/comparator.c
-        game/inc/comparator.h)
+        game/inc/comparator.h
+        game/src/registers.c
+        game/inc/registers.h)
 
 target_link_libraries(computer_game PUBLIC raylib m)
 target_include_directories(computer_game PRIVATE game/inc deps)

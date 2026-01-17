@@ -19,6 +19,7 @@ typedef struct
     struct Instruction program[256];
     int program_counter;
     int registers[8];
+    int registers_editing[8];
     enum Stage sim_stage;
     int pc_textbox_editing;
     int output_textbox_editing;

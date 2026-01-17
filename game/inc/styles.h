@@ -7,4 +7,5 @@
 #define CG_WINDOW_BORDER_COLOR (Color) { 22, 22, 28, 255 }
 #define CG_ALU_COLOR (Color) { 78, 186, 130, 255 }
 #define CG_CMP_COLOR (Color) { 150, 186, 48, 255 }
+#define CG_REG_COLOR (Color) { 200, 120, 140, 255 }
 #endif //COMPUTER_GAME_STYLES_H

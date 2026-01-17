@@ -48,7 +48,7 @@ void update_draw_inst_drag(struct InstDrag* drag, GameState* state)
 
         if (far_pos_x >= alu_pos_x && far_pos_y >= alu_pos_y && pos_x <= alu_far_pos_x && pos_y <= alu_far_pos_y)
         {
-            state->alu_answer = eval_alu_inst(drag->inst);
+            state->alu_answer = eval_alu_inst(drag->inst, state);
         }
         if (far_pos_x >= cmp_pos_x && far_pos_y >= cmp_pos_y && pos_x <= cmp_far_pos_x && pos_y <= cmp_far_pos_y)
         {

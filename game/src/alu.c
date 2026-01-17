@@ -4,29 +4,41 @@
 #include "main.h"
 #include "styles.h"
 
-int eval_alu_inst(const struct Instruction inst)
+int eval_alu_inst(const struct Instruction inst, const GameState* state)
 {
+    if (state->sim_stage < STAGE_SECOND_REGISTERS)
+    {
+        if (inst.type == ADD)
+        {
+            return inst.first_operand + inst.second_operand;
+        }
+        if (inst.type == SUB)
+        {
+            return inst.first_operand - inst.second_operand;
+        }
+    }
+
     switch (inst.type)
     {
     case ADD:
-        return inst.first_operand + inst.second_operand;
+        return state->registers[1] + state->registers[2];
     case SUB:
-        return inst.first_operand - inst.second_operand;
+        return state->registers[1] - state->registers[2];
     case AND:
-        return inst.first_operand & inst.second_operand;
+        return state->registers[1] & state->registers[2];
     case OR:
-        return inst.first_operand | inst.second_operand;
+        return state->registers[1] | state->registers[2];
     case NAND:
-        return ~(inst.first_operand & inst.second_operand);
+        return ~(state->registers[1] & state->registers[2]);
     case XOR:
-        return inst.first_operand ^ inst.second_operand;
+        return state->registers[1] ^ state->registers[2];
     default: return -1000;
     }
 }
 
 int get_alu_left_edge(void)
 {
-    return 7 * (GetScreenWidth() / 10);
+    return 1 * (GetScreenWidth() / 2);
 }
 
 int get_alu_top_edge(void)

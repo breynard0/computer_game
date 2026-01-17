@@ -11,6 +11,7 @@
 #include "inst_list.h"
 #include "gen_inst.h"
 #include "screen_controls.h"
+#include "registers.h"
 
 #include "../deps/jetbrainmono.h" // font made with xxd
 
@@ -19,7 +20,9 @@ int main(void)
     const int screenWidth = 1200;
     const int screenHeight = 800;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Computer Game");
+    SetWindowMinSize(1100, 600);
 
     SetTargetFPS(60);
 
@@ -33,7 +36,7 @@ int main(void)
     GameState state = {
         .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
-        .registers = {}, .font = jetbrains_mono
+        .registers = {}, .font = jetbrains_mono, .registers_editing = {}
     };
     regen_instructions(&state);
 
@@ -44,13 +47,19 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        if (IsKeyPressed(KEY_SPACE))
+        if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_R))
         {
             state.output = 0;
             state.alu_answer = -1000;
             state.cmp_answer = -1;
             state.output_changed = 0;
             state.program_counter++;
+        }
+
+        if (IsKeyPressed(KEY_R))
+        {
+            state.program_counter = 0;
+            regen_instructions(&state);
         }
 
         if (IsKeyPressed(KEY_K))
@@ -71,6 +80,10 @@ int main(void)
         if (state.sim_stage >= STAGE_FOURTH_JUMP)
         {
             draw_cmp(&state);
+        }
+        if (state.sim_stage >= STAGE_SECOND_REGISTERS)
+        {
+            draw_registers(&state);
         }
 
         const int cur_draggable_inst_height = draw_inst_list(state);
@@ -99,5 +112,5 @@ void DrawTextFont(const Font font, const char* text, const int x, const int y, c
 
 int MeasureTextFont(const Font font, const char* text, const int size)
 {
-    return (int) MeasureTextEx(font, text, (float) size, 2).x;
+    return (int)MeasureTextEx(font, text, (float)size, 2).x;
 }
