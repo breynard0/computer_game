@@ -60,7 +60,7 @@ void regen_instructions(GameState* state)
                     break;
                 case 3:
                     inst = (struct Instruction){
-                        .type = LOAD, .first_operand = GetRandomValue(0, 255), .second_operand = GetRandomValue(0, 2), 1
+                        .type = LOAD, .first_operand = GetRandomValue(0, 127), .second_operand = GetRandomValue(0, 2), 1
                     };
                     break;
                 default:
@@ -140,11 +140,15 @@ void regen_instructions(GameState* state)
                 switch (GetRandomValue(0, 19))
                 {
                 case 0:
+                case 10:
+                case 11:
                     inst = (struct Instruction){
                         .type = ADD, .first_operand = 0, .second_operand = 0, 0
                     };
                     break;
                 case 1:
+                case 12:
+                case 13:
                     {
                         inst = (struct Instruction){
                             .type = SUB, .first_operand = 0, .second_operand = 0, 0
@@ -203,51 +207,63 @@ void regen_instructions(GameState* state)
                     }
                     break;
                 case 8:
-                    {
-                        inst = (struct Instruction){
-                            .type = JNE, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
-                    }
-                    break;
                 case 9:
+                    switch (GetRandomValue(0, 5))
                     {
-                        inst = (struct Instruction){
-                            .type = JGT, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
-                    }
-                    break;
-                case 10:
-                    {
-                        inst = (struct Instruction){
-                            .type = JGE, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
-                    }
-                    break;
-                case 11:
-                    {
-                        inst = (struct Instruction){
-                            .type = JLT, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
-                    }
-                    break;
-                case 12:
-                    {
-                        inst = (struct Instruction){
-                            .type = JLE, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
-                    }
-                    break;
-                case 13:
-                    {
-                        inst = (struct Instruction){
-                            .type = JEQ, .first_operand = GetRandomValue(0, 2), .second_operand = GetRandomValue(0, 2),
-                            0
-                        };
+                    case 0:
+                        {
+                            inst = (struct Instruction){
+                                .type = JNE, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                        break;
+                    case 1:
+                        {
+                            inst = (struct Instruction){
+                                .type = JGT, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                        break;
+                    case 2:
+                        {
+                            inst = (struct Instruction){
+                                .type = JGE, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                        break;
+                    case 3:
+                        {
+                            inst = (struct Instruction){
+                                .type = JLT, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                        break;
+                    case 4:
+                        {
+                            inst = (struct Instruction){
+                                .type = JLE, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                        break;
+                    case 5:
+                        {
+                            inst = (struct Instruction){
+                                .type = JEQ, .first_operand = GetRandomValue(0, 2),
+                                .second_operand = GetRandomValue(0, 2),
+                                0
+                            };
+                        }
+                    default: break;
                     }
                     break;
                 default:
@@ -258,11 +274,15 @@ void regen_instructions(GameState* state)
                 switch (GetRandomValue(0, 19))
                 {
                 case 0:
+                case 10:
+                case 11:
                     inst = (struct Instruction){
                         .type = ADD, .first_operand = 0, .second_operand = 0, 0
                     };
                     break;
                 case 1:
+                case 12:
+                case 13:
                     {
                         inst = (struct Instruction){
                             .type = SUB, .first_operand = 0, .second_operand = 0, 0
@@ -317,53 +337,65 @@ void regen_instructions(GameState* state)
                     }
                     break;
                 case 8:
-                    {
-                        inst = (struct Instruction){
-                            .type = JNE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
-                    }
-                    break;
                 case 9:
+                    switch (GetRandomValue(0, 5))
                     {
-                        inst = (struct Instruction){
-                            .type = JGT, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
+                    case 0:
+                        {
+                            inst = (struct Instruction){
+                                .type = JNE, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    case 1:
+                        {
+                            inst = (struct Instruction){
+                                .type = JGT, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    case 2:
+                        {
+                            inst = (struct Instruction){
+                                .type = JGE, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    case 3:
+                        {
+                            inst = (struct Instruction){
+                                .type = JLT, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    case 4:
+                        {
+                            inst = (struct Instruction){
+                                .type = JLE, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    case 5:
+                        {
+                            inst = (struct Instruction){
+                                .type = JEQ, .first_operand = GetRandomValue(0, 7),
+                                .second_operand = GetRandomValue(0, 7),
+                                0
+                            };
+                        }
+                        break;
+                    default: break;
                     }
-                    break;
-                case 10:
-                    {
-                        inst = (struct Instruction){
-                            .type = JGE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
-                    }
-                    break;
-                case 11:
-                    {
-                        inst = (struct Instruction){
-                            .type = JLT, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
-                    }
-                    break;
-                case 12:
-                    {
-                        inst = (struct Instruction){
-                            .type = JLE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
-                    }
-                    break;
-                case 13:
-                    {
-                        inst = (struct Instruction){
-                            .type = JEQ, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
-                            0
-                        };
-                    }
-                    break;
                 default:
                     break;
                 }

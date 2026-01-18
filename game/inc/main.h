@@ -34,6 +34,9 @@ typedef struct
     int automatic;
     float timer;
     float timer_period;
+    uint32_t coins;
+    int help_window_open;
+    float scroll_pos;
 } GameState;
 
 void DrawTextFont(Font font, const char* text, int x, int y, int size);

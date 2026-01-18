@@ -9,10 +9,12 @@ void draw_screen_controls(GameState* state)
     const float left_x = (float)get_inst_box_width();
     const float height = 0.05f * (float)GetScreenHeight();
 
+    GuiSetStyle(VALUEBOX, TEXT_PADDING, 0);
+    
     int tmp_pc = state->program_counter;
     GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
     GuiSetStyle(VALUEBOX, TEXT_ALIGNMENT, TEXT_ALIGN_RIGHT);
-    const float width = height * 3.0f;
+    const float width = height * 1.8f;
     if (GuiValueBox((Rectangle){left_x, (float)GetScreenHeight() - height, width, height}, " Program Counter",
                     &tmp_pc, 0,
                     255, state->pc_textbox_editing))

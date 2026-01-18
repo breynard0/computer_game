@@ -56,7 +56,7 @@ void draw_control_data_lines(const GameState* state)
     // Since the bus is entirely on or off, everything will be just one color
     Color bus_color = CG_DATA_LINE_ACTIVE_COLOR;
     Color control_bus_color = CG_CONTROL_LINE_ACTIVE_COLOR;
-    if (inst.type >= JLT && inst.type <= JNE && state->cmp_answer != 1)
+    if ((inst.type >= JLT && inst.type <= JNE && state->cmp_answer != 1) || inst.type == NOOP)
     {
         bus_color = CG_DATA_LINE_INACTIVE_COLOR;
         control_bus_color = CG_CONTROL_LINE_INACTIVE_COLOR;

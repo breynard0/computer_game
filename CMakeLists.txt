@@ -27,7 +27,14 @@ add_executable(computer_game game/src/main.c
         game/src/decoder_bus.c
         game/inc/decoder_bus.h
         game/src/eval.c
-        game/inc/eval.h)
+        game/inc/eval.h
+        game/src/draw_coins.c
+        game/inc/draw_coins.h
+        game/src/manual.c
+        game/inc/manual.h
+        game/inc/programs.h
+        game/src/programs.c
+        game/inc/text.h)
 
 target_link_libraries(computer_game PUBLIC raylib m)
 target_include_directories(computer_game PRIVATE game/inc deps)

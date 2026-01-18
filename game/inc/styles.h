@@ -13,4 +13,8 @@
 #define CG_DATA_LINE_ACTIVE_COLOR (Color) { 210, 70, 80, 255 }
 #define CG_CONTROL_LINE_INACTIVE_COLOR (Color) { 10, 85, 40, 255 }
 #define CG_DATA_LINE_INACTIVE_COLOR (Color) { 105, 35, 40, 255 }
+#define CG_INNER_WINDOW_BACKGROUND_COLOR (Color) { 0x2c, 0x2e, 0x30, 255 }
+#define CG_SHOP_YAY_COLOR (Color) { 160, 220, 120, 255 }
+#define CG_SHOP_NAY_COLOR (Color) { 220, 160, 120, 255 }
+#define CG_PROG_BUTTON_COLOR (Color) { 50, 50, 52, 255 }
 #endif //COMPUTER_GAME_STYLES_H

@@ -12,14 +12,16 @@
 #include "inst_list.h"
 #include "gen_inst.h"
 #include "screen_controls.h"
+#include "draw_coins.h"
 #include "registers.h"
 #include "eval.h"
+#include "manual.h"
 
 #include "../deps/jetbrainmono.h" // font made with xxd
 
 void pc_up_stuff(GameState* state)
 {
-    state->output = 0;
+    if (state->sim_stage <= STAGE_FOURTH_JUMP) state->output = 0;
     state->alu_answer = -1000;
     state->cmp_answer = -1;
     state->output_changed = 0;
@@ -35,6 +37,7 @@ void pc_up_stuff(GameState* state)
             state->program_counter = 0;
         }
     }
+    state->coins += (state->sim_stage + 1) * (state->sim_stage + 1);
 }
 
 int main(void)
@@ -57,10 +60,11 @@ int main(void)
     GuiSetFont(jetbrains_mono);
 
     GameState state = {
-        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK - 1, .pc_textbox_editing = 0,
+        .program = {}, .program_counter = 0, .sim_stage = 0, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
         .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
-        .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.2f
+        .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.1f,
+        .timer = 0, .coins = 0, .help_window_open = true
     };
     regen_instructions(&state);
 
@@ -76,16 +80,6 @@ int main(void)
             if (IsKeyPressed(KEY_PERIOD))
             {
                 state.automatic = !state.automatic;
-            }
-            if (IsKeyPressed(KEY_EQUAL))
-            {
-                state.timer_period /= 2;
-                state.timer = 0;
-            }
-            if (IsKeyPressed(KEY_MINUS))
-            {
-                state.timer_period *= 2;
-                state.timer = 0;
             }
         }
 
@@ -111,6 +105,10 @@ int main(void)
 
         if (IsKeyPressed(KEY_R))
         {
+            for (int i = 0; i < 8; i++)
+            {
+                state.registers[i] = 0;
+            }
             state.program_counter = 0;
             regen_instructions(&state);
         }
@@ -156,6 +154,13 @@ int main(void)
         update_draw_inst_drag(&drag, &state);
 
         draw_screen_controls(&state);
+        draw_coins_display(&state);
+        draw_shop_items(&state);
+        draw_manual_button(&state);
+        if (state.help_window_open)
+        {
+            draw_manual_window(&state);
+        }
         EndDrawing();
     }
 

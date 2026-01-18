@@ -14,26 +14,40 @@ int eval_alu_inst(const struct Instruction inst, const GameState* state)
         }
         if (inst.type == SUB)
         {
-            return inst.first_operand - inst.second_operand;
+            uint8_t ans = inst.first_operand - inst.second_operand;
+            return ans;
         }
     }
 
+    int ans;
     switch (inst.type)
     {
     case ADD:
-        return state->registers[1] + state->registers[2];
+        ans = state->registers[1] + state->registers[2];
+        break;
     case SUB:
-        return state->registers[1] - state->registers[2];
+        ans = state->registers[1] - state->registers[2];
+        break;
     case AND:
-        return state->registers[1] & state->registers[2];
+        ans = state->registers[1] & state->registers[2];
+        break;
     case OR:
-        return state->registers[1] | state->registers[2];
+        ans = state->registers[1] | state->registers[2];
+        break;
     case NAND:
-        return ~(state->registers[1] & state->registers[2]);
+        ans = ~(state->registers[1] & state->registers[2]);
+        break;
     case XOR:
-        return state->registers[1] ^ state->registers[2];
-    default: return -1000;
+        ans = state->registers[1] ^ state->registers[2];
+        break;
+    default: ans = -1000;
     }
+
+    if (ans < 0)
+    {
+        ans += 255;
+    }
+    return ans;
 }
 
 int get_alu_left_edge(void)
