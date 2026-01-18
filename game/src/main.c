@@ -17,6 +17,26 @@
 
 #include "../deps/jetbrainmono.h" // font made with xxd
 
+void pc_up_stuff(GameState* state)
+{
+    state->output = 0;
+    state->alu_answer = -1000;
+    state->cmp_answer = -1;
+    state->output_changed = 0;
+    if (state->tentative_program_counter >= 0)
+    {
+        state->program_counter = state->tentative_program_counter;
+    }
+    else
+    {
+        state->program_counter++;
+        if (state->program_counter > 255)
+        {
+            state->program_counter = 0;
+        }
+    }
+}
+
 int main(void)
 {
     const int screenWidth = 1200;
@@ -40,7 +60,7 @@ int main(void)
         .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK - 1, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
         .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
-        .bus_value = -1
+        .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.2f
     };
     regen_instructions(&state);
 
@@ -51,16 +71,41 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_R))
+        if (state.sim_stage >= STAGE_SIX_MEMORY_AND_CLOCK)
         {
-            state.output = 0;
-            state.alu_answer = -1000;
-            state.cmp_answer = -1;
-            state.output_changed = 0;
-            state.program_counter++;
-            if (state.program_counter > 255)
+            if (IsKeyPressed(KEY_PERIOD))
             {
-                state.program_counter = 0;
+                state.automatic = !state.automatic;
+            }
+            if (IsKeyPressed(KEY_EQUAL))
+            {
+                state.timer_period /= 2;
+                state.timer = 0;
+            }
+            if (IsKeyPressed(KEY_MINUS))
+            {
+                state.timer_period *= 2;
+                state.timer = 0;
+            }
+        }
+
+        if (state.automatic)
+        {
+            if (state.timer > state.timer_period)
+            {
+                pc_up_stuff(&state);
+                state.timer = 0;
+            }
+            else
+            {
+                state.timer += GetFrameTime();
+            }
+        }
+        else
+        {
+            if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_R))
+            {
+                pc_up_stuff(&state);
             }
         }
 
@@ -76,8 +121,6 @@ int main(void)
             regen_instructions(&state);
         }
 
-        eval_computer(&state);
-        
         BeginDrawing();
 
         ClearBackground(CG_MAINWINDOW_BACKGROUND_COLOR);
@@ -85,6 +128,7 @@ int main(void)
         // Draw ALU and comparator and friends
         if (state.sim_stage >= STAGE_FIVE_DECODER_BUS)
         {
+            eval_computer(&state);
             draw_control_data_lines(&state);
             draw_decoder(&state);
         }

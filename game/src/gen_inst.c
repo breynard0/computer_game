@@ -152,9 +152,9 @@ void regen_instructions(GameState* state)
                     }
                     break;
                 case 2:
-                case 19:
                 case 14:
                 case 15:
+                case 19:
                     {
                         int second = GetRandomValue(0, 3);
                         if (second == 3)
@@ -274,9 +274,9 @@ void regen_instructions(GameState* state)
                 case 15:
                 case 16:
                     {
-                        int second = GetRandomValue(0, 8);
                         inst = (struct Instruction){
-                            .type = MOVE, .first_operand = GetRandomValue(0, 7), .second_operand = second, 1
+                            .type = MOVE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 8),
+                            1
                         };
                     }
                     break;
@@ -373,6 +373,47 @@ void regen_instructions(GameState* state)
         while (i != 0 && inst.type == state->program[i - 1].type);
 
         state->program[i] = inst;
+    }
+
+    // Make the first few load calls
+    if (state->sim_stage >= STAGE_SECOND_REGISTERS)
+    {
+        int used_nums[8] = {};
+        int used_nums_len = 0;
+        int amount = 4;
+        if (state->sim_stage >= STAGE_SIX_MEMORY_AND_CLOCK)
+        {
+            amount = 6;
+        }
+        for (int idx = 0; idx < amount; idx++)
+        {
+            int second;
+            int found = false;
+            do
+            {
+                second = GetRandomValue(0, 3);
+                if (second == 3) second = 8;
+                if (state->sim_stage >= STAGE_SIX_MEMORY_AND_CLOCK && idx > amount / 2)
+                {
+                    second = GetRandomValue(0, 8);
+                }
+                found = false;
+                for (int j = 0; j < used_nums_len; j++)
+                {
+                    if (used_nums[j] == second)
+                    {
+                        found = true;
+                    }
+                }
+                used_nums[used_nums_len] = second;
+                used_nums_len++;
+            }
+            while (found);
+
+            state->program[idx] = (struct Instruction){
+                .type = LOAD, .first_operand = GetRandomValue(0, 255), .second_operand = second, 1
+            };
+        }
     }
     state->program_counter = 0;
 }

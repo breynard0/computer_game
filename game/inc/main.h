@@ -18,7 +18,8 @@ typedef struct
 {
     struct Instruction program[256];
     int program_counter;
-    int registers[8];
+    int tentative_program_counter;
+    uint8_t registers[8];
     int registers_editing[8];
     enum Stage sim_stage;
     int pc_textbox_editing;
@@ -30,6 +31,9 @@ typedef struct
     Font font;
     int cur_draggable_inst_height;
     int bus_value;
+    int automatic;
+    float timer;
+    float timer_period;
 } GameState;
 
 void DrawTextFont(Font font, const char* text, int x, int y, int size);
