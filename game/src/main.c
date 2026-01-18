@@ -5,6 +5,7 @@
 
 #include "inst_drag.h"
 #include "alu.h"
+#include "decoder_bus.h"
 #include "comparator.h"
 #include "styles.h"
 #include "main.h"
@@ -20,6 +21,7 @@ int main(void)
     const int screenWidth = 1200;
     const int screenHeight = 800;
 
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Computer Game");
     SetWindowMinSize(1100, 600);
@@ -36,7 +38,8 @@ int main(void)
     GameState state = {
         .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
-        .registers = {}, .font = jetbrains_mono, .registers_editing = {}
+        .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
+        .bus_value = -1
     };
     regen_instructions(&state);
 
@@ -73,6 +76,11 @@ int main(void)
         ClearBackground(CG_MAINWINDOW_BACKGROUND_COLOR);
 
         // Draw ALU and comparator and friends
+        if (state.sim_stage >= STAGE_FIVE_DECODER_BUS)
+        {
+            draw_control_data_lines(&state);
+            draw_decoder(&state);
+        }
         if (state.sim_stage >= STAGE_THIRD_ALU)
         {
             draw_alu(&state);
@@ -86,11 +94,11 @@ int main(void)
             draw_registers(&state);
         }
 
-        const int cur_draggable_inst_height = draw_inst_list(state);
+        state.cur_draggable_inst_height = draw_inst_list(state);
         if (state.program_counter != last_program_counter)
         {
             drag.x = 0;
-            drag.y = cur_draggable_inst_height;
+            drag.y = state.cur_draggable_inst_height;
         }
         last_program_counter = state.program_counter;
         drag.inst = state.program[state.program_counter];

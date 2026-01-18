@@ -8,4 +8,9 @@
 #define CG_ALU_COLOR (Color) { 78, 186, 130, 255 }
 #define CG_CMP_COLOR (Color) { 150, 186, 48, 255 }
 #define CG_REG_COLOR (Color) { 200, 120, 140, 255 }
+#define CG_DECODER_COLOR (Color) { 20, 120, 40, 255 }
+#define CG_CONTROL_LINE_ACTIVE_COLOR (Color) { 20, 170, 80, 255 }
+#define CG_DATA_LINE_ACTIVE_COLOR (Color) { 210, 70, 80, 255 }
+#define CG_CONTROL_LINE_INACTIVE_COLOR (Color) { 10, 85, 40, 255 }
+#define CG_DATA_LINE_INACTIVE_COLOR (Color) { 105, 35, 40, 255 }
 #endif //COMPUTER_GAME_STYLES_H

@@ -78,7 +78,7 @@ void draw_inst_box(const struct InstDrag* drag, const int width, const int heigh
     char second_buf[16];
     sprintf(second_buf, "%i", drag->inst.second_operand);
 
-    if (drag->inst.type == MOVE)
+    if (drag->inst.type == MOVE || drag->inst.type == LOAD)
     {
         if (drag->inst.first_operand == 8)
         {

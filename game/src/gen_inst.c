@@ -274,13 +274,9 @@ void regen_instructions(GameState* state)
                 case 15:
                 case 16:
                     {
-                        int second = GetRandomValue(0, 7);
-                        if (second == 7)
-                        {
-                            second = 8;
-                        }
+                        int second = GetRandomValue(0, 8);
                         inst = (struct Instruction){
-                            .type = MOVE, .first_operand = GetRandomValue(0, 6), .second_operand = second, 1
+                            .type = MOVE, .first_operand = GetRandomValue(0, 7), .second_operand = second, 1
                         };
                     }
                     break;
@@ -289,7 +285,7 @@ void regen_instructions(GameState* state)
                 case 18:
                 case 19:
                     inst = (struct Instruction){
-                        .type = LOAD, .first_operand = GetRandomValue(0, 255), .second_operand = GetRandomValue(0, 6), 1
+                        .type = LOAD, .first_operand = GetRandomValue(0, 255), .second_operand = GetRandomValue(0, 8), 1
                     };
                     break;
                 case 4:
@@ -323,7 +319,7 @@ void regen_instructions(GameState* state)
                 case 8:
                     {
                         inst = (struct Instruction){
-                            .type = JNE, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JNE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }
@@ -331,7 +327,7 @@ void regen_instructions(GameState* state)
                 case 9:
                     {
                         inst = (struct Instruction){
-                            .type = JGT, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JGT, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }
@@ -339,7 +335,7 @@ void regen_instructions(GameState* state)
                 case 10:
                     {
                         inst = (struct Instruction){
-                            .type = JGE, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JGE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }
@@ -347,7 +343,7 @@ void regen_instructions(GameState* state)
                 case 11:
                     {
                         inst = (struct Instruction){
-                            .type = JLT, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JLT, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }
@@ -355,7 +351,7 @@ void regen_instructions(GameState* state)
                 case 12:
                     {
                         inst = (struct Instruction){
-                            .type = JLE, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JLE, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }
@@ -363,7 +359,7 @@ void regen_instructions(GameState* state)
                 case 13:
                     {
                         inst = (struct Instruction){
-                            .type = JEQ, .first_operand = GetRandomValue(0, 6), .second_operand = GetRandomValue(0, 6),
+                            .type = JEQ, .first_operand = GetRandomValue(0, 7), .second_operand = GetRandomValue(0, 7),
                             0
                         };
                     }

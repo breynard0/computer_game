@@ -28,6 +28,8 @@ typedef struct
     int alu_answer;
     int cmp_answer;
     Font font;
+    int cur_draggable_inst_height;
+    int bus_value;
 } GameState;
 
 void DrawTextFont(Font font, const char* text, int x, int y, int size);

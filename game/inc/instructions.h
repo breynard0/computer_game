@@ -5,10 +5,10 @@
 enum InstType
 {
     NOOP,
-    ADD,
-    SUB,
     MOVE,
     LOAD,
+    ADD,
+    SUB,
     AND,
     OR,
     NAND,
