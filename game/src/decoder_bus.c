@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <string.h>
+
 #include "alu.h"
 #include "comparator.h"
 #include "inst_box.h"
@@ -51,8 +54,14 @@ void draw_control_data_lines(const GameState* state)
     const int data_line_width = 8;
 
     // Since the bus is entirely on or off, everything will be just one color
-    Color bus_color
-    
+    Color bus_color = CG_DATA_LINE_ACTIVE_COLOR;
+    Color control_bus_color = CG_CONTROL_LINE_ACTIVE_COLOR;
+    if (inst.type >= JLT && inst.type <= JNE && state->cmp_answer != 1)
+    {
+        bus_color = CG_DATA_LINE_INACTIVE_COLOR;
+        control_bus_color = CG_CONTROL_LINE_INACTIVE_COLOR;
+    }
+
     // Draw control lines
 
     const int dec_inst_midpoint_x = get_inst_box_width() + (decoder_x() - get_inst_box_width()) / 2;
@@ -131,6 +140,8 @@ void draw_control_data_lines(const GameState* state)
 
     // Decoder to registers
     int register_count = 3;
+    const int register_bus_x = registers_start_x() - data_line_width * 4;
+    int last_bus_register_y = 0;
     if (state->sim_stage >= STAGE_SIX_MEMORY_AND_CLOCK) register_count = 8;
     for (int i = 0; i < register_count; i++)
     {
@@ -181,5 +192,60 @@ void draw_control_data_lines(const GameState* state)
         // Final line across
         DrawLineThickness(second_x - control_line_width / 2, register_y, registers_start_x(), register_y, control_color,
                           control_line_width);
+
+        // Might as well draw the bus lines too
+        const int data_line_y = register_y + single_register_height() / 3;
+        last_bus_register_y = data_line_y;
+        DrawLineThickness(register_bus_x, data_line_y, registers_start_x(), data_line_y, bus_color,
+                          data_line_width);
     }
+
+    // Now for data lines
+
+    // Vertical register one
+    DrawLineThickness(register_bus_x, registers_start_y() +
+                      2 * single_register_height() / 3 - data_line_width / 2 - 1, register_bus_x,
+                      last_bus_register_y + data_line_width / 2, bus_color,
+                      data_line_width);
+
+    // Control line to bus
+    const int middle_bus_x = get_alu_left_edge() + get_alu_width() / 2 - data_line_width / 2;
+    DrawLineThickness(decoder_x() + decoder_width() / 2, decoder_y() + decoder_height(),
+                      decoder_x() + decoder_width() / 2, 2 * (GetScreenHeight() / 5), control_bus_color,
+                      control_line_width);
+    DrawLineThickness(decoder_x() + decoder_width() / 2, 2 * (GetScreenHeight() / 5),
+                      middle_bus_x, 2 * (GetScreenHeight() / 5), control_bus_color, control_line_width);
+
+    // Vertical one right down the middle
+    const int bottom_bus_y = GetScreenHeight() - 3 * control_line_width;
+    DrawLineThickness(middle_bus_x, get_alu_top_edge() + get_alu_height(), middle_bus_x, bottom_bus_y, bus_color,
+                      data_line_width);
+
+    // Line connect PC and output to bus
+    DrawLineThickness((int)((float)GetScreenWidth() - 0.15f * (float)GetScreenHeight()), bottom_bus_y,
+                      (int)(0.15f * (float)GetScreenHeight()) + get_inst_box_width(), bottom_bus_y, bus_color,
+                      data_line_width);
+
+    // Connect registers
+    DrawLineThickness(middle_bus_x, last_bus_register_y, register_bus_x, last_bus_register_y, bus_color,
+                      data_line_width);
+
+    // Connect comparator
+    DrawLineThickness(get_cmp_left_edge() + get_cmp_width(), get_cmp_top_edge() + get_cmp_height() / 2, middle_bus_x,
+                      get_cmp_top_edge() + get_cmp_height() / 2, bus_color,
+                      data_line_width);
+
+    // Bus value text
+    char bus_text[32];
+    if (state->bus_value > 0)
+    {
+        sprintf(bus_text, " Bus Value: %i", state->bus_value);
+    }
+    else
+    {
+        strcpy(bus_text, " Bus Value: None");
+    }
+
+    DrawTextEx(state->font, bus_text, (Vector2){(float)middle_bus_x, (float)(bottom_bus_y - 24)}, (float)24, 2,
+               bus_color);
 }

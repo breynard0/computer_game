@@ -21,6 +21,10 @@ int draw_inst_list(const GameState state)
 
     for (int next = 0; next < GetScreenHeight(); next += box_height)
     {
+        if (idx > 255)
+        {
+            break;
+        }
         const int i = idx % 256;
         
         struct InstDrag drag = {.inst = state.program[i], .x = 0, .y = next};

@@ -13,6 +13,7 @@
 #include "gen_inst.h"
 #include "screen_controls.h"
 #include "registers.h"
+#include "eval.h"
 
 #include "../deps/jetbrainmono.h" // font made with xxd
 
@@ -36,7 +37,7 @@ int main(void)
     GuiSetFont(jetbrains_mono);
 
     GameState state = {
-        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
+        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK - 1, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
         .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
         .bus_value = -1
@@ -57,6 +58,10 @@ int main(void)
             state.cmp_answer = -1;
             state.output_changed = 0;
             state.program_counter++;
+            if (state.program_counter > 255)
+            {
+                state.program_counter = 0;
+            }
         }
 
         if (IsKeyPressed(KEY_R))
@@ -71,6 +76,8 @@ int main(void)
             regen_instructions(&state);
         }
 
+        eval_computer(&state);
+        
         BeginDrawing();
 
         ClearBackground(CG_MAINWINDOW_BACKGROUND_COLOR);
