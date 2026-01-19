@@ -23,7 +23,7 @@ const char* FIFTH =
 
 const char* SIXTH =
     "Stage 6:\nCongratulations! You have now fully upgraded your computer, and you can press the period key to enable the automatic clock. There are also five more registers, expanding what this computer is able to calculate tremendously.\n"\
-    "Also unlocked are some actual programs to run on the computer. Fibonacci computes the 12th Fibonacci number, Factorial computes the value of 5!, and GCD computes the greatest common divisor between 35 and 56 using the Euclidean algorithm.\n"\
+    "Also unlocked are some actual programs to run on the computer. Fibonacci computes the 13th Fibonacci number, Factorial computes the value of 5!, and GCD computes the greatest common divisor between 252 and 105 using the Euclidean algorithm.\n"\
     "This computer can still be upgraded in many ways, but I hope this gives a glimpse into how deceptively simple a computing machine is when built step-by-step. They really are just calculators that can remember numbers to pass them around later.\n"\
     "One last though to leave you with: what if I linked something like the brightness of a light bulb to the value in one of the registers? Then, I could control something in the real world with this computer. This technique is called memory mapping, and it is used everywhere without most people realizing it.";
 #endif //COMPUTER_GAME_TEXT_H

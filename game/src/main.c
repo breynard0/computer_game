@@ -60,10 +60,10 @@ int main(void)
     GuiSetFont(jetbrains_mono);
 
     GameState state = {
-        .program = {}, .program_counter = 0, .sim_stage = 0, .pc_textbox_editing = 0,
+        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
         .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
-        .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.1f,
+        .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.05f,
         .timer = 0, .coins = 0, .help_window_open = true
     };
     regen_instructions(&state);
@@ -113,11 +113,11 @@ int main(void)
             regen_instructions(&state);
         }
 
-        if (IsKeyPressed(KEY_K))
-        {
-            state.sim_stage++;
-            regen_instructions(&state);
-        }
+        // if (IsKeyPressed(KEY_K))
+        // {
+        //     state.sim_stage++;
+        //     regen_instructions(&state);
+        // }
 
         BeginDrawing();
 
@@ -154,7 +154,7 @@ int main(void)
         update_draw_inst_drag(&drag, &state);
 
         draw_screen_controls(&state);
-        draw_coins_display(&state);
+        if (state.sim_stage != STAGE_SIX_MEMORY_AND_CLOCK) draw_coins_display(&state);
         draw_shop_items(&state);
         draw_manual_button(&state);
         if (state.help_window_open)

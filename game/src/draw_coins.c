@@ -103,6 +103,7 @@ void draw_shop_items(GameState* state)
                 state->program_counter = 0;
                 state->help_window_open = true;
                 state->scroll_pos = 0;
+                state->output = 0;
             }
         }
 
@@ -141,6 +142,7 @@ void draw_shop_items(GameState* state)
                     }
                     state->program_counter = 0;
                     state->automatic = false;
+                    state->output = 0;
                 }
             }
         }
@@ -169,6 +171,7 @@ void draw_shop_items(GameState* state)
                     }
                     state->program_counter = 0;
                     state->automatic = false;
+                    state->output = 0;
                 }
             }
         }
@@ -197,6 +200,7 @@ void draw_shop_items(GameState* state)
                     }
                     state->program_counter = 0;
                     state->automatic = false;
+                    state->output = 0;
                 }
             }
         }

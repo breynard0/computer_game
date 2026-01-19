@@ -113,7 +113,7 @@ void draw_control_data_lines(const GameState* state)
                       get_alu_left_edge() - 20, GetScreenHeight() - control_line_width, output_color,
                       control_line_width);
     DrawLineThickness(get_alu_left_edge() - 20 - control_line_width / 2, GetScreenHeight() - control_line_width,
-                      (int)((float)GetScreenWidth() - 0.15f * (float)GetScreenHeight()),
+                      (int)((float)GetScreenWidth() - 0.09f * (float)GetScreenHeight()),
                       GetScreenHeight() - control_line_width, output_color, control_line_width);
 
     // Decoder to program counter
@@ -135,7 +135,7 @@ void draw_control_data_lines(const GameState* state)
                       control_line_width);
     DrawLineThickness(get_alu_left_edge() - 20 - control_line_width - control_line_width / 2,
                       GetScreenHeight() - control_line_width,
-                      (int)(0.15f * (float)GetScreenHeight()) + get_inst_box_width(),
+                      (int)(0.09f * (float)GetScreenHeight()) + get_inst_box_width(),
                       GetScreenHeight() - control_line_width, pc_color, control_line_width);
 
     // Decoder to registers
@@ -161,6 +161,10 @@ void draw_control_data_lines(const GameState* state)
             {
                 control_color = CG_CONTROL_LINE_ACTIVE_COLOR;
             }
+        }
+        if (i <= 2 && ((inst.type >= ADD && inst.type <= XOR) || (inst.type >= JLT && inst.type <= JNE)))
+        {
+            control_color = CG_CONTROL_LINE_ACTIVE_COLOR;
         }
 
         // First line, down from decoder
@@ -222,8 +226,8 @@ void draw_control_data_lines(const GameState* state)
                       data_line_width);
 
     // Line connect PC and output to bus
-    DrawLineThickness((int)((float)GetScreenWidth() - 0.15f * (float)GetScreenHeight()), bottom_bus_y,
-                      (int)(0.15f * (float)GetScreenHeight()) + get_inst_box_width(), bottom_bus_y, bus_color,
+    DrawLineThickness((int)((float)GetScreenWidth() - 0.09f * (float)GetScreenHeight()), bottom_bus_y,
+                      (int)(0.09f * (float)GetScreenHeight()) + get_inst_box_width(), bottom_bus_y, bus_color,
                       data_line_width);
 
     // Connect registers
