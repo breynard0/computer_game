@@ -60,7 +60,7 @@ int main(void)
     GuiSetFont(jetbrains_mono);
 
     GameState state = {
-        .program = {}, .program_counter = 0, .sim_stage = STAGE_SIX_MEMORY_AND_CLOCK, .pc_textbox_editing = 0,
+        .program = {}, .program_counter = 0, .sim_stage = 0, .pc_textbox_editing = 0,
         .output_textbox_editing = 0, .output = 0, .alu_answer = -1000, .output_changed = 0, .cmp_answer = -1,
         .registers = {}, .font = jetbrains_mono, .registers_editing = {}, .cur_draggable_inst_height = 0,
         .bus_value = -1, .tentative_program_counter = -1, .automatic = false, .timer_period = 0.05f,
