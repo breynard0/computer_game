@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.31)
 project(computer_game C)
 
 set(CMAKE_C_STANDARD 11)
@@ -42,4 +42,5 @@ add_executable(computer_game game/src/main.c
         game/inc/text.h)
 
 target_link_libraries(computer_game PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/deps/libraylib.a" m)
+#target_link_libraries(computer_game PUBLIC raylib m)
 target_include_directories(computer_game PRIVATE game/inc deps ../../git-cache/raylib/src)

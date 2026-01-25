@@ -446,7 +446,7 @@ void regen_instructions(GameState* state)
             if (state->sim_stage <= STAGE_SECOND_REGISTERS) max = 96;
 
             state->program[idx] = (struct Instruction){
-                .type = LOAD, .first_operand = GetRandomValue(0, 255), .second_operand = second, 1
+                .type = LOAD, .first_operand = GetRandomValue(0, max), .second_operand = second, 1
             };
         }
     }
